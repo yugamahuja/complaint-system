@@ -1,6 +1,6 @@
 import enum
 from datetime import date, datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlalchemy import Date, DateTime, Enum, ForeignKey, String, Text, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -42,7 +42,7 @@ class Complaint(Base):
         Enum(Priority, name="priority", native_enum=True),
         nullable=False,
     )
-    assigned_employee_id: Mapped[int | None] = mapped_column(
+    assigned_employee_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("employees.id", ondelete="SET NULL"), nullable=True
     )
     expected_resolution_date: Mapped[date] = mapped_column(Date, nullable=False)
@@ -63,19 +63,19 @@ class Complaint(Base):
         server_default=text("TIMEZONE('utc', now())"),
         onupdate=text("TIMEZONE('utc', now())"),
     )
-    resolved_at: Mapped[datetime | None] = mapped_column(
+    resolved_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
-    closed_at: Mapped[datetime | None] = mapped_column(
+    closed_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
 
     category: Mapped["Category"] = relationship(back_populates="complaints")
-    assigned_employee: Mapped["Employee | None"] = relationship(
+    assigned_employee: Mapped[Optional["Employee"]] = relationship(
         back_populates="assigned_complaints",
         foreign_keys=[assigned_employee_id],
     )
-    activities: Mapped[list["ComplaintActivity"]] = relationship(
+    activities: Mapped[List["ComplaintActivity"]] = relationship(
         back_populates="complaint", cascade="all, delete-orphan"
     )
 
@@ -97,7 +97,7 @@ class ComplaintActivity(Base):
     )
     action: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
-    performed_by: Mapped[int | None] = mapped_column(
+    performed_by: Mapped[Optional[int]] = mapped_column(
         ForeignKey("employees.id", ondelete="SET NULL"), nullable=True
     )
     created_at: Mapped[datetime] = mapped_column(
@@ -107,6 +107,6 @@ class ComplaintActivity(Base):
     )
 
     complaint: Mapped["Complaint"] = relationship(back_populates="activities")
-    performer: Mapped["Employee | None"] = relationship(
+    performer: Mapped[Optional["Employee"]] = relationship(
         back_populates="complaint_activities", foreign_keys=[performed_by]
     )

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from datetime import datetime
 
@@ -22,4 +22,4 @@ class Category(Base):
         server_default=text("TIMEZONE('utc', now())"),
     )
 
-    complaints: Mapped[list["Complaint"]] = relationship(back_populates="category")
+    complaints: Mapped[List["Complaint"]] = relationship(back_populates="category")

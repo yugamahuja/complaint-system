@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from datetime import datetime
 
@@ -24,9 +24,9 @@ class Employee(Base):
         server_default=text("TIMEZONE('utc', now())"),
     )
 
-    assigned_complaints: Mapped[list["Complaint"]] = relationship(
+    assigned_complaints: Mapped[List["Complaint"]] = relationship(
         back_populates="assigned_employee", foreign_keys="Complaint.assigned_employee_id"
     )
-    complaint_activities: Mapped[list["ComplaintActivity"]] = relationship(
+    complaint_activities: Mapped[List["ComplaintActivity"]] = relationship(
         back_populates="performer", foreign_keys="ComplaintActivity.performed_by"
     )
