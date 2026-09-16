@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background: #f7f8fc;
+  color: #172033;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f7f8fc;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, a, input, select, textarea { transition: border-color .18s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(51, 92, 255, .22); outline-offset: 2px; }
+button:not(:disabled):active { transform: translateY(1px); }
+.surface { border: 1px solid #e7eaf1; background: #fff; border-radius: 18px; box-shadow: 0 8px 30px rgba(25, 35, 60, .04); }
+.field { border: 1px solid #dfe4ec; border-radius: 10px; background: #fff; color: #172033; }
+.field:hover { border-color: #c5cddd; }
+.field:focus { border-color: #335cff; box-shadow: 0 0 0 3px rgba(51, 92, 255, .12); outline: none; }
